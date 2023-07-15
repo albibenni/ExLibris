@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { User, UserCreationRequest, UserDocument } from './user.model';
 import { Optional } from 'typescript-optional';
 
-export class UsersRepository {
+export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   public findAll(): Promise<User[]> {
