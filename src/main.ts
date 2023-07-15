@@ -18,11 +18,6 @@ async function bootstrap() {
   app.useGlobalPipes(getValidationPipe());
 
   const port = configService.get<string>('PORT') || 3001;
-  // app.useGlobalFilters(
-  //   new ErrorFilter(),
-  //   new MongoExceptionFilter(),
-  //   new HttpExceptionFilter(),
-  // );
   await app.listen(port);
 }
 bootstrap();
