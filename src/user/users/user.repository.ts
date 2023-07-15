@@ -1,9 +1,11 @@
 import { InjectModel } from '@nestjs/mongoose';
+import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User, UserCreationRequest, UserDocument } from './user.model';
 import { Optional } from 'typescript-optional';
 import { ObjectId } from 'mongodb';
 
+@Injectable()
 export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
