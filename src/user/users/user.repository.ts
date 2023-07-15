@@ -32,4 +32,8 @@ export class UserRepository {
       roles: request.roles,
     });
   }
+
+  public async deleteAll() {
+    await this.userModel.deleteMany({}).exec();
+  }
 }
