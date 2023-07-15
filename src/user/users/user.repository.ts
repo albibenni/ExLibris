@@ -2,6 +2,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserCreationRequest, UserDocument } from './user.model';
 import { Optional } from 'typescript-optional';
+import { ObjectId } from 'mongodb';
 
 export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
@@ -31,6 +32,16 @@ export class UserRepository {
       email: request.email.toLowerCase(),
       roles: request.roles,
     });
+  }
+  public async delete(id: string): Promise<Optional<UserDocument>> {
+    if (!ObjectId.isValid(id)) {
+      return Optional.empty();
+    }
+    return Optional.ofNullable(
+      await this.userModel
+        .findByIdAndDelete(id, { returnDocument: 'before' })
+        .exec(),
+    );
   }
 
   public async deleteAll() {

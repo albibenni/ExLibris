@@ -1,8 +1,9 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { ConfigService } from '@nestjs/config';
-import { UserCreationRequest } from './user.model';
+import { User, UserCreationRequest } from './user.model';
 import { ROLES } from '../../auth/roles';
+import { Optional } from 'typescript-optional';
 
 export const USERS: UserCreationRequest[] = [
   {
@@ -43,7 +44,24 @@ export class UserService implements OnModuleInit {
     }
   }
 
-  findUsers(request): {};
+  public findUsers(): Promise<User[]> {
+    return this.repo.findAll();
+  }
 
-  findById(request, id: string) {}
+  public findById(id: string) {
+    return this.repo.findOne(id);
+  }
+
+  public async findByEmail(email: string): Promise<User> {
+    return (await this.repo.findUserByEmail(email)).orElseThrow(
+      () => new NotFoundException(`user with email ${email} not found`),
+    );
+  }
+
+  public async delete(id: string): Promise<Optional<User>> {
+    (await this.findById(id)).orElseThrow(
+      () => new NotFoundException(`user with id ${id} not found`),
+    );
+    return this.repo.delete(id);
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, Param, Req } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { ROLES } from '../../auth/roles';
 import { Roles } from '../../auth/guard/role-guard';
 import { dtoFromUser, UserDto } from './dto/user.dto';
@@ -10,19 +10,17 @@ export class UserController {
 
   @Get('')
   @Roles(ROLES.ADMIN)
-  async getTechnicians(@Req() request): Promise<UserDto[]> {
-    return this.userService
-      .findUsers(request)
-      .then((users) => users.map(dtoFromUser));
+  async getUsers(): Promise<UserDto[]> {
+    return this.userService.findUsers().then((users) => users.map(dtoFromUser));
   }
 
   @Get(':id')
   @Roles(ROLES.ADMIN)
-  async getUser(@Req() request, @Param('id') id: string): Promise<UserDto> {
+  async getUser(@Param('id') id: string): Promise<UserDto> {
     return this.userService
-      .findById(request, id)
-      .then((u) =>
-        u
+      .findById(id)
+      .then((user) =>
+        user
           .map(dtoFromUser)
           .orElseThrow(
             () => new NotFoundException(`user with id ${id} not found`),
