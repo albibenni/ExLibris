@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { ConfigService } from '@nestjs/config';
 import { User, UserCreationRequest } from './user.model';
-import { ROLES } from '../../auth/roles';
+import { ROLES } from '../auth/roles';
 import { Optional } from 'typescript-optional';
 
 export const USERS: UserCreationRequest[] = [

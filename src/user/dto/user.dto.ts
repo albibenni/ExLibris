@@ -1,6 +1,6 @@
 import { User, UserCreationRequest, UserUpdateRequest } from '../user.model';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { ROLES } from '../../../auth/roles';
+import { ROLES } from '../../auth/roles';
 
 export class UserDto {
   id: string;

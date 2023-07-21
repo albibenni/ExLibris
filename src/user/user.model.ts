@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, Schema as MongooseSchema } from 'mongoose';
-import { ROLES } from '../../auth/roles';
+import { ROLES } from '../auth/roles';
 
 export type UserDocument = User & Document;
 export type UserRef = User | MongooseSchema.Types.ObjectId;

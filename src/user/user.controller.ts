@@ -1,6 +1,6 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
-import { ROLES } from '../../auth/roles';
-import { Roles } from '../../auth/guard/role-guard';
+import { ROLES } from '../auth/roles';
+import { Roles } from '../auth/guard/role-guard';
 import { dtoFromUser, UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
