@@ -16,10 +16,10 @@ export interface LibraryUpdateRequest {
   books: Book[];
 }
 
-type Book = {
+export interface Book {
   title: string;
   topic: string;
-};
+}
 
 @Schema({ autoIndex: true })
 export class Library {
