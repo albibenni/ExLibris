@@ -50,4 +50,14 @@ export class LibraryRepository {
   public async findAll(): Promise<Library[]> {
     return this.libraryModel.find().sort({ address: 1 }).exec();
   }
+
+  public async findAllBooks(id: string): Promise<Optional<Library>> {
+    if (!ObjectId.isValid(id)) {
+      return Optional.empty();
+    }
+    return this.libraryModel
+      .findById(id)
+      .exec()
+      .then((d) => Optional.ofNullable(d));
+  }
 }
