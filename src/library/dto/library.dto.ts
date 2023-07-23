@@ -6,6 +6,14 @@ import {
 } from '../library.model';
 import { dtoFromUser, UserDto } from '../../user/dto/user.dto';
 import { User } from '../../user/user.model';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsNotEmpty,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class LibraryDto {
   id: string;
@@ -29,11 +37,26 @@ export class LibraryDto {
 export class BookDto implements Book {
   title: string;
   topic: string;
+
+  constructor(title: string, topic: string) {
+    this.title = title;
+    this.topic = topic;
+  }
 }
 
 export class LibraryCreationRequestDto implements LibraryCreationRequest {
+  @IsNotEmpty()
+  @IsString()
   address: string;
+  @ArrayNotEmpty()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BookDto)
   books: BookDto[];
+  @ArrayNotEmpty()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => User)
   managers: User[];
 }
 
