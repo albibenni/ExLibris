@@ -37,4 +37,17 @@ export class LibraryRepository {
   public async deleteAll() {
     await this.libraryModel.deleteMany({}).exec();
   }
+
+  public async findByAddress(
+    address: string,
+  ): Promise<Optional<LibraryDocument>> {
+    return this.libraryModel
+      .findOne({ address: address.toLowerCase() })
+      .exec()
+      .then((d) => Optional.ofNullable(d));
+  }
+
+  public async findAll(): Promise<Library[]> {
+    return this.libraryModel.find().sort({ address: 1 }).exec();
+  }
 }
