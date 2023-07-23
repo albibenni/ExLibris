@@ -1,4 +1,10 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Logger,
+  NotFoundException,
+  Param,
+} from '@nestjs/common';
 import { ROLES } from '../auth/roles';
 import { Roles } from '../auth/guard/role-guard';
 import { dtoFromUser, UserDto } from './dto/user.dto';
@@ -6,6 +12,8 @@ import { UserService } from './user.service';
 
 @Controller('users')
 export class UserController {
+  private readonly logger = new Logger(UserController.name);
+
   constructor(private readonly userService: UserService) {}
 
   @Get('')
