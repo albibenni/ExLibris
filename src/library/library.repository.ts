@@ -38,6 +38,13 @@ export class LibraryRepository {
     await this.libraryModel.deleteMany({}).exec();
   }
 
+  public async findById(id: string): Promise<Optional<LibraryDocument>> {
+    return this.libraryModel
+      .findById(id)
+      .exec()
+      .then((d) => Optional.ofNullable(d));
+  }
+
   public async findByAddress(
     address: string,
   ): Promise<Optional<LibraryDocument>> {

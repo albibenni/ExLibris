@@ -6,15 +6,20 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { Roles, RolesGuard } from '../auth/guard/role-guard';
 import { ROLES } from '../auth/roles';
 import { LibraryService } from './library.service';
-import { dtoFromLibrary, LibraryDto } from './dto/library.dto';
-import Principal from '../auth/model/principal.model';
-import { Library, LibraryCreationRequest } from './library.model';
+import {
+  BookDto,
+  dtoFromLibrary,
+  LibraryCreationRequestDto,
+  LibraryDto,
+  LibraryUpdateRequestDto,
+} from './dto/library.dto';
 
 @Controller('library')
 @UseGuards(RolesGuard)
@@ -29,6 +34,12 @@ export class LibraryController {
     return this.libraryService
       .findLibraries()
       .then((users) => users.map(dtoFromLibrary));
+  }
+
+  @Get(':id/books')
+  @Roles(ROLES.ADMIN, ROLES.MANAGER)
+  async getBooks(@Param('id') id: string): Promise<BookDto[]> {
+    return this.libraryService.getBooks(id).then((books) => books.map(dto));
   }
 
   @Get(':address')
@@ -54,12 +65,25 @@ export class LibraryController {
   @Roles(ROLES.ADMIN, ROLES.MANAGER)
   async createLibrary(
     @Req() request: Request,
-    @Body() requestBody: LibraryCreationRequest,
+    @Body() requestBody: LibraryCreationRequestDto,
   ): Promise<LibraryDto> {
     this.logger.log(`Create library with address: ${requestBody.address}`);
     // const principal = <Principal>request.user;
     return this.libraryService
       .create(requestBody, request)
+      .then(dtoFromLibrary);
+  }
+
+  @Put(':id')
+  @Roles(ROLES.ADMIN, ROLES.MANAGER)
+  async updateLibrary(
+    @Req() request: Request,
+    @Param('id') id: string,
+    @Body() requestBody: LibraryUpdateRequestDto,
+  ): Promise<LibraryDto> {
+    // const principal = <Principal>request.user;
+    return this.libraryService
+      .updateLibrary(id, requestBody, request)
       .then(dtoFromLibrary);
   }
 }
