@@ -25,6 +25,9 @@ export class User {
   @Prop({ index: true, required: true, unique: true })
   email: string;
 
+  @Prop({ required: true })
+  password: string;
+
   @Prop({ type: [String], index: true })
   roles: string[];
 

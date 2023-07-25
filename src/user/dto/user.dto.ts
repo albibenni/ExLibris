@@ -5,6 +5,7 @@ import { ROLES } from '../../auth/roles';
 export class UserDto {
   id: string;
   email: string;
+  password: string;
   firstName: string;
   familyName: string;
   roles: string[];
@@ -12,12 +13,14 @@ export class UserDto {
   constructor(
     id: string,
     email: string,
+    password: string,
     firstName: string,
     familyName: string,
     roles: string[],
   ) {
     this.id = id;
     this.email = email;
+    this.password = password;
     this.firstName = firstName;
     this.familyName = familyName;
     this.roles = roles;
@@ -28,6 +31,9 @@ export class UserCreationRequestDto implements UserCreationRequest {
   @IsNotEmpty()
   @IsString()
   email: string;
+  @IsNotEmpty()
+  @IsString()
+  password: string;
   @IsNotEmpty()
   @IsString()
   firstName: string;
@@ -57,6 +63,7 @@ export const dtoFromUser = (user: User): UserDto => {
   return new UserDto(
     user._id != null ? user._id.toString() : null,
     user.email,
+    user.password,
     user.firstName,
     user.familyName,
     user.roles,
