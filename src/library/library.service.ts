@@ -6,7 +6,6 @@ import {
   LibraryCreationRequest,
   LibraryUpdateRequest,
 } from './library.model';
-import { LibraryDto } from './dto/library.dto';
 import { Optional } from 'typescript-optional';
 
 @Injectable()
@@ -50,5 +49,18 @@ export class LibraryService {
       () => new NotFoundException(`Library with id ${id} not found`),
     );
     this.logger.log(`Update library with address: ${library.address}`);
+    return this.repo.updateLibrary(id, requestBody);
+  }
+
+  async rendABook(
+    id: string,
+    requestBody: LibraryUpdateRequest,
+    request: Request,
+  ): Promise<Optional<Library>> {
+    const library = (await this.repo.findById(id)).orElseThrow(
+      () => new NotFoundException(`Library with id ${id} not found`),
+    );
+    this.logger.log(`Update library with address: ${library.address}`);
+    return this.repo.updateLibrary(id, requestBody);
   }
 }

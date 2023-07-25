@@ -7,6 +7,7 @@ import {
   Library,
   LibraryCreationRequest,
   LibraryDocument,
+  LibraryUpdateRequest,
 } from './library.model';
 
 @Injectable()
@@ -64,6 +65,26 @@ export class LibraryRepository {
     }
     return this.libraryModel
       .findById(id)
+      .exec()
+      .then((d) => Optional.ofNullable(d));
+  }
+
+  public async updateLibrary(
+    id: string,
+    request: LibraryUpdateRequest,
+  ): Promise<Optional<Library>> {
+    if (!ObjectId.isValid(id)) {
+      return Optional.empty();
+    }
+    return this.libraryModel
+      .findByIdAndUpdate(
+        id,
+        {
+          books: request.books,
+          mangers: request.manager,
+        },
+        { new: true },
+      )
       .exec()
       .then((d) => Optional.ofNullable(d));
   }
