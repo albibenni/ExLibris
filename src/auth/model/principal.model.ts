@@ -8,6 +8,14 @@ interface Principal {
   familyName: string;
   roles: string[];
 }
+export interface TokenData {
+  id: string;
+  refreshToken: string;
+  email: string;
+  firstName: string;
+  familyName: string;
+  roles: string[];
+}
 
 export default Principal;
 
