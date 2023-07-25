@@ -19,6 +19,7 @@ export interface LibraryUpdateRequest {
 export interface Book {
   title: string;
   topic: string;
+  rented: boolean;
 }
 
 @Schema({ autoIndex: true })

@@ -37,10 +37,12 @@ export class LibraryDto {
 export class BookDto implements Book {
   title: string;
   topic: string;
+  rented: boolean;
 
-  constructor(title: string, topic: string) {
+  constructor(title: string, topic: string, rented: boolean) {
     this.title = title;
     this.topic = topic;
+    this.rented = rented;
   }
 }
 
@@ -65,11 +67,15 @@ export class LibraryUpdateRequestDto implements LibraryUpdateRequest {
   manager: User[];
 }
 
+export const dtoFromBook = (book: Book): Book => {
+  return new BookDto(book.title, book.topic, book.rented);
+};
+
 export const dtoFromLibrary = (library: Library): LibraryDto => {
   return new LibraryDto(
     library._id != null ? library._id.toString() : null,
     library.address,
-    library.managers.map((user) => dtoFromUser(user)),
-    library.books,
+    library.managers.map(dtoFromUser),
+    library.books.map(dtoFromBook),
   );
 };
