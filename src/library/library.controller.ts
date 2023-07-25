@@ -15,6 +15,7 @@ import { ROLES } from '../auth/roles';
 import { LibraryService } from './library.service';
 import {
   BookDto,
+  dtoFromBook,
   dtoFromLibrary,
   LibraryCreationRequestDto,
   LibraryDto,
@@ -39,7 +40,9 @@ export class LibraryController {
   @Get(':id/books')
   @Roles(ROLES.ADMIN, ROLES.MANAGER)
   async getBooks(@Param('id') id: string): Promise<BookDto[]> {
-    return this.libraryService.getBooks(id).then((books) => books.map(dto));
+    return this.libraryService
+      .getBooks(id)
+      .then((books) => books.map(dtoFromBook));
   }
 
   @Get(':address')

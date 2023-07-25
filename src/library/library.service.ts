@@ -44,12 +44,18 @@ export class LibraryService {
     id: string,
     requestBody: LibraryUpdateRequest,
     request: Request,
-  ): Promise<Optional<Library>> {
+  ): Promise<Library> {
     const library = (await this.repo.findById(id)).orElseThrow(
       () => new NotFoundException(`Library with id ${id} not found`),
     );
     this.logger.log(`Update library with address: ${library.address}`);
-    return this.repo.updateLibrary(id, requestBody);
+    return this.repo
+      .updateLibrary(id, requestBody)
+      .then((d) =>
+        d.orElseThrow(
+          () => new NotFoundException(`store visit with id ${id} not found`),
+        ),
+      );
   }
 
   async rendABook(
