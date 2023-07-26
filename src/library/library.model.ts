@@ -16,6 +16,10 @@ export interface LibraryUpdateRequest {
   books: Book[];
 }
 
+export interface LibraryBookRentalRequest {
+  books: Book[];
+}
+
 export interface Book {
   title: string;
   topic: string;

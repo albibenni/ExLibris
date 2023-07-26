@@ -3,6 +3,7 @@ import { LibraryRepository } from './library.repository';
 import {
   Book,
   Library,
+  LibraryBookRentalRequest,
   LibraryCreationRequest,
   LibraryUpdateRequest,
 } from './library.model';
@@ -58,15 +59,23 @@ export class LibraryService {
       );
   }
 
-  async rendABook(
+  async rentBooksFromALibrary(
     id: string,
-    requestBody: LibraryUpdateRequest,
+    requestBody: LibraryBookRentalRequest,
     request: Request,
-  ): Promise<Optional<Library>> {
+  ): Promise<Library> {
     const library = (await this.repo.findById(id)).orElseThrow(
       () => new NotFoundException(`Library with id ${id} not found`),
     );
-    this.logger.log(`Update library with address: ${library.address}`);
-    return this.repo.updateLibrary(id, requestBody);
+    this.logger.log(
+      `Rent Books from a library with address: ${library.address}`,
+    );
+    return this.repo
+      .rentBooksFromALibrary(id, requestBody)
+      .then((d) =>
+        d.orElseThrow(
+          () => new NotFoundException(`store visit with id ${id} not found`),
+        ),
+      );
   }
 }

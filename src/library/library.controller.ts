@@ -17,10 +17,12 @@ import {
   BookDto,
   dtoFromBook,
   dtoFromLibrary,
+  LibraryBookRentalRequestDto,
   LibraryCreationRequestDto,
   LibraryDto,
   LibraryUpdateRequestDto,
 } from './dto/library.dto';
+import { LibraryBookRentalRequest } from './library.model';
 
 @Controller('library')
 @UseGuards(RolesGuard)
@@ -87,6 +89,19 @@ export class LibraryController {
     // const principal = <Principal>request.user;
     return this.libraryService
       .updateLibrary(id, requestBody, request)
+      .then(dtoFromLibrary);
+  }
+
+  @Put(':id')
+  @Roles(ROLES.ADMIN, ROLES.MANAGER, ROLES.AFFILIATE_USER)
+  async rentBooksFromALibrary(
+    @Req() request: Request,
+    @Param('id') id: string,
+    @Body() requestBody: LibraryBookRentalRequestDto,
+  ): Promise<LibraryDto> {
+    // const principal = <Principal>request.user;
+    return this.libraryService
+      .rentBooksFromALibrary(id, requestBody, request)
       .then(dtoFromLibrary);
   }
 }

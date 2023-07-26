@@ -1,6 +1,7 @@
 import {
   Book,
   Library,
+  LibraryBookRentalRequest,
   LibraryCreationRequest,
   LibraryUpdateRequest,
 } from '../library.model';
@@ -65,6 +66,10 @@ export class LibraryCreationRequestDto implements LibraryCreationRequest {
 export class LibraryUpdateRequestDto implements LibraryUpdateRequest {
   books: BookDto[];
   manager: User[];
+}
+
+export class LibraryBookRentalRequestDto implements LibraryBookRentalRequest {
+  books: BookDto[];
 }
 
 export const dtoFromBook = (book: Book): Book => {
