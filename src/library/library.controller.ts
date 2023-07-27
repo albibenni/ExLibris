@@ -23,6 +23,7 @@ import {
   LibraryUpdateRequestDto,
 } from './dto/library.dto';
 import { LibraryBookRentalRequest } from './library.model';
+import Principal from '../auth/model/principal.model';
 
 @Controller('library')
 @UseGuards(RolesGuard)
@@ -40,7 +41,7 @@ export class LibraryController {
   }
 
   @Get(':id/books')
-  @Roles(ROLES.ADMIN, ROLES.MANAGER)
+  @Roles(ROLES.ADMIN, ROLES.MANAGER, ROLES.AFFILIATE_USER, ROLES.SIMPLE_USER)
   async getBooks(@Param('id') id: string): Promise<BookDto[]> {
     return this.libraryService
       .getBooks(id)
